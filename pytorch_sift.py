@@ -21,7 +21,7 @@ class my_atan2(torch.autograd.Function):
         return torch.atan2(input1,input2)    
     def backward(self, grad_output):
         y,x = self.saved_tensors
-        xsq_ysq = x*x + y*y
+        xsq_ysq = x*x + y*y + 1e-8
         return grad_output * x/xsq_ysq, grad_output *-(y/xsq_ysq)
 
 def getPoolingKernel(kernel_size = 25):
