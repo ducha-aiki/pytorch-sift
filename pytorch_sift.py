@@ -60,11 +60,11 @@ class SIFTNet(nn.Module):
         self.num_ang_bins = num_ang_bins
         self.num_spatial_bins = num_spatial_bins
         self.clipval = clipval
-        self.gx =  nn.Sequential(nn.Conv2d(1, 1, kernel_size=(1,3), padding = (0,1), bias = False))
+        self.gx =  nn.Sequential(nn.Conv2d(1, 1, kernel_size=(1,3),  bias = False))
         for l in self.gx:
             if isinstance(l, nn.Conv2d):
                 l.weight.data = torch.from_numpy(np.array([[[[-1, 0, 1]]]], dtype=np.float32))
-        self.gy =  nn.Sequential(nn.Conv2d(1, 1, kernel_size=(3,1), padding = (1,0), bias = False))
+        self.gy =  nn.Sequential(nn.Conv2d(1, 1, kernel_size=(3,1),  bias = False))
         for l in self.gy:
             if isinstance(l, nn.Conv2d):
                 l.weight.data = torch.from_numpy(np.array([[[[-1], [0], [1]]]], dtype=np.float32))
@@ -77,8 +77,8 @@ class SIFTNet(nn.Module):
                 new_weights = np.array(nw.reshape((1, 1, self.bin_weight_kernel_size, self.bin_weight_kernel_size)))
                 l.weight.data = torch.from_numpy(new_weights.astype(np.float32))
     def forward(self, x):
-        gx = self.gx(x)
-        gy = self.gy(x)
+        gx = self.gx(F.pad(x, (1,1,0, 0), 'replicate'))
+        gy = self.gy(F.pad(x, (0,0, 1,1), 'replicate'))
         mag = torch.sqrt(gx * gx + gy * gy + 1e-10)
         ori = my_atan2()(gy,gx)
         mag  = mag * self.gk.expand_as(mag)
