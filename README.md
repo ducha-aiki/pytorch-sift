@@ -17,4 +17,10 @@ Speed:
 
 If you use this code for academic purposes, please cite the following paper:
 
-    @article {tbd}
+    @article{HardNet2017,
+     author = {Anastasiya Mishchuk, Dmytro Mishkin, Filip Radenovic, Jiri Matas},
+        title = "{Working hard to know your neighbor's margins: Local descriptor learning loss}",
+        booktitle = {Proceedings of NIPS},
+         year = 2017,
+        month = dec}
+
