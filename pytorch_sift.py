@@ -5,6 +5,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch.backends.cudnn as cudnn
 import numpy as np
+import torch.nn.functional as F
 
 class L2Norm(nn.Module):
     def __init__(self):
@@ -12,7 +13,7 @@ class L2Norm(nn.Module):
         self.eps = 1e-10
     def forward(self, x):
         norm = torch.sqrt(torch.abs(torch.sum(x * x, dim = 1)) + self.eps)
-        x= x / norm.expand_as(x)
+        x= x / norm.unsqueeze(1).expand_as(x)
         return x
 
 def getPoolingKernel(kernel_size = 25):
@@ -41,13 +42,11 @@ class SIFTNet(nn.Module):
                 else:
                     kernel[y,x] = 0.
         return kernel
-    def __init__(self, patch_size = 65, num_ang_bins = 8, num_spatial_bins = 4, clipval = 0.2, do_cuda = False):
+    def __init__(self, patch_size = 65, num_ang_bins = 8, num_spatial_bins = 4, clipval = 0.2):
         super(SIFTNet, self).__init__()
         gk = torch.from_numpy(self.CircularGaussKernel(kernlen=patch_size).astype(np.float32))
         self.bin_weight_kernel_size, self.bin_weight_stride = get_bin_weight_kernel_size_and_stride(patch_size, num_spatial_bins)
-        self.gk = Variable(gk, volatile=True)
-        if do_cuda:
-            self.gk = self.gk.cuda()
+        self.gk = Variable(gk)
         self.num_ang_bins = num_ang_bins
         self.num_spatial_bins = num_spatial_bins
         self.clipval = clipval
@@ -72,6 +71,10 @@ class SIFTNet(nn.Module):
         gy = self.gy(F.pad(x, (0,0, 1,1), 'replicate'))
         mag = torch.sqrt(gx * gx + gy * gy + 1e-10)
         ori = torch.atan2(gy,gx + 1e-8)
+        if x.is_cuda:
+            self.gk = self.gk.cuda()
+        else:
+            self.gk = self.gk.cpu()
         mag  = mag * self.gk.expand_as(mag)
         o_big = (ori +2.0 * math.pi )/ (2.0 * math.pi) * float(self.num_ang_bins)
         bo0_big =  torch.floor(o_big)
