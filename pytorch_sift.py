@@ -11,18 +11,9 @@ class L2Norm(nn.Module):
         super(L2Norm,self).__init__()
         self.eps = 1e-10
     def forward(self, x):
-        norm = torch.sqrt(torch.sum(x * x, dim = 1) + self.eps)
+        norm = torch.sqrt(torch.abs(torch.sum(x * x, dim = 1)) + self.eps)
         x= x / norm.expand_as(x)
         return x
-
-class my_atan2(torch.autograd.Function):
-    def forward(self, input1,input2):
-        self.save_for_backward(input1, input2)
-        return torch.atan2(input1,input2)    
-    def backward(self, grad_output):
-        y,x = self.saved_tensors
-        xsq_ysq = x*x + y*y + 1e-8
-        return grad_output * x/xsq_ysq, grad_output *-(y/xsq_ysq)
 
 def getPoolingKernel(kernel_size = 25):
     step = 1. / float(np.floor( kernel_size / 2.));
@@ -80,7 +71,7 @@ class SIFTNet(nn.Module):
         gx = self.gx(F.pad(x, (1,1,0, 0), 'replicate'))
         gy = self.gy(F.pad(x, (0,0, 1,1), 'replicate'))
         mag = torch.sqrt(gx * gx + gy * gy + 1e-10)
-        ori = my_atan2()(gy,gx)
+        ori = torch.atan2(gy,gx + 1e-8)
         mag  = mag * self.gk.expand_as(mag)
         o_big = (ori +2.0 * math.pi )/ (2.0 * math.pi) * float(self.num_ang_bins)
         bo0_big =  torch.floor(o_big)
