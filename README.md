@@ -1,4 +1,4 @@
-This is an [pytorch](https://github.com/pytorch/pytorch) implementation of SIFT patch descriptor. It is very slow for describing one patch, but quite fast for batch.
+This is an differentiable [pytorch](https://github.com/pytorch/pytorch) implementation of SIFT patch descriptor. It is very slow for describing one patch, but quite fast for batch. It can be used for descriptop-based learning shape of affine feature.
 
 Here are comparisons to the original Michal Perdoch implementation. 
 The benchmark is on W1BS dataset from [WxBS: Wide Baseline Stereo Generalizations](https://arxiv.org/abs/1504.06603.pdf) paper, figure 3. So there is no difference between versions in performance 
@@ -17,10 +17,11 @@ Speed:
 
 If you use this code for academic purposes, please cite the following paper:
 
-    @article{HardNet2017,
-     author = {Anastasiya Mishchuk, Dmytro Mishkin, Filip Radenovic, Jiri Matas},
-        title = "{Working hard to know your neighbor's margins: Local descriptor learning loss}",
-        booktitle = {Proceedings of NIPS},
-         year = 2017,
-        month = dec}
+```
+    @article{AffNet2017,
+     author = {Dmytro Mishkin, Filip Radenovic, Jiri Matas},
+     title = "{Learning Discriminative Affine Regions via Discriminability}",
+     year = 2017,
+     month = nov}
+```
 
