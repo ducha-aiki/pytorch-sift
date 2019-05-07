@@ -26,28 +26,35 @@ Results:
 
 
 ```
-VLFeat-SIFT - mAP 
-    Easy      Hard      Tough      mean
---------  --------  ---------  --------
-0.466584  0.203966  0.0935743  0.254708
-
-
 OPENCV-SIFT - mAP 
    Easy     Hard      Tough     mean
 -------  -------  ---------  -------
 0.47788  0.20997  0.0967711  0.26154
 
+VLFeat-SIFT - mAP 
+    Easy      Hard      Tough      mean
+--------  --------  ---------  --------
+0.466584  0.203966  0.0935743  0.254708
+
+PYTORCH-SIFT-VLFEAT-65 - mAP 
+    Easy      Hard      Tough      mean
+--------  --------  ---------  --------
+0.472563  0.202458  0.0910371  0.255353
+
+NUMPY-SIFT-VLFEAT-65 - mAP 
+    Easy      Hard      Tough      mean
+--------  --------  ---------  --------
+0.449431  0.197918  0.0905395  0.245963
 
 PYTORCH-SIFT-MP-65 - mAP 
     Easy      Hard      Tough      mean
 --------  --------  ---------  --------
 0.430887  0.184834  0.0832707  0.232997
 
-
-PYTORCH-SIFT-VLFEAT-65 - mAP 
-    Easy      Hard      Tough      mean
---------  --------  ---------  --------
-0.472563  0.202458  0.0910371  0.255353
+NUMPY-SIFT-MP-65 - mAP 
+    Easy     Hard      Tough      mean
+--------  -------  ---------  --------
+0.417296  0.18114  0.0820582  0.226832
 
 
 ```
