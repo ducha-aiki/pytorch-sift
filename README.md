@@ -1,6 +1,6 @@
 This is an differentiable [pytorch](https://github.com/pytorch/pytorch) implementation of SIFT patch descriptor. It is very slow for describing one patch, but quite fast for batch. It can be used for descriptop-based learning shape of affine feature.
 
-There are different implementations of the SIFT on the web. I tried to match [Michal Perdoch implementation](https://github.com/perdoch/hesaff/blob/master/siftdesc.cpp), which given high quality features for image retrieval [CVPR2009](http://cmp.felk.cvut.cz/~chum/papers/perdoch-cvpr09.pdf). However, on planar datasets, it is inferior to [vlfeat implementation](http://www.vlfeat.org/sandbox/api/sift.html).
+There are different implementations of the SIFT on the web. I tried to match [Michal Perdoch implementation](https://github.com/perdoch/hesaff/blob/master/siftdesc.cpp), which gives high quality features for image retrieval [CVPR2009](http://cmp.felk.cvut.cz/~chum/papers/perdoch-cvpr09.pdf). However, on planar datasets, it is inferior to [vlfeat implementation](http://www.vlfeat.org/sandbox/api/sift.html).
 The main difference is gaussian weighting window parameters, so I have made a vlfeat-like version too.  MP version weights patch center much more and additionally crops everything outside the circular region.
 
 
