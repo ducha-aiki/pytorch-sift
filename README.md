@@ -1,5 +1,7 @@
 This is an differentiable [pytorch](https://github.com/pytorch/pytorch) implementation of SIFT patch descriptor. It is very slow for describing one patch, but quite fast for batch. It can be used for descriptop-based learning shape of affine feature.
 
+**UPD 08/2019** : pytorch-sift is added to [kornia](https://github.com/arraiyopensource/kornia) and available by `kornia.features.SIFTDescriptor`
+
 There are different implementations of the SIFT on the web. I tried to match [Michal Perdoch implementation](https://github.com/perdoch/hesaff/blob/master/siftdesc.cpp), which gives high quality features for image retrieval [CVPR2009](http://cmp.felk.cvut.cz/~chum/papers/perdoch-cvpr09.pdf). However, on planar datasets, it is inferior to [vlfeat implementation](http://www.vlfeat.org/sandbox/api/sift.html).
 The main difference is gaussian weighting window parameters, so I have made a vlfeat-like version too.  MP version weights patch center much more (see image below, left) and additionally crops everything outside the circular region. Right is vlfeat version
 
